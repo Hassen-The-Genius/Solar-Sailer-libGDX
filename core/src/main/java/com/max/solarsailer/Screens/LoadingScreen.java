@@ -1,11 +1,14 @@
 package com.max.solarsailer.Screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.max.solarsailer.Loading.Loader;
 import com.max.solarsailer.SolarSailerMain;
 
@@ -15,11 +18,15 @@ public class LoadingScreen extends ScreenAdapter {
     AssetManager assMan;
     OrthographicCamera cam;
     ExtendViewport viewport;
+    float minVPWidth = 800;
+    float minVPHeight = 400;
 
     public Sprite logo;
     public Sprite loadingBarBack;
     public Sprite loadingBarFront;
+    public Texture zebraDying;
 
+    float progress = 0f;
 
     public LoadingScreen(SolarSailerMain game) {
         this.game = game;
@@ -29,27 +36,45 @@ public class LoadingScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        cam = new OrthographicCamera();
-        viewport = new ExtendViewport(800, 400, cam);
-        cam.position.set(800/2f, 400/2f, 0);
+        loader = new Loader(game);
         init();
+
+        cam = new OrthographicCamera();
+        viewport = new ExtendViewport(minVPWidth, minVPHeight, cam);
+        cam.position.set(minVPWidth/2f, minVPHeight/2f, 0);
+
+        logo = new Sprite(new Texture(Gdx.files.internal("loading/splah.png")));
+        loadingBarBack = new Sprite(new Texture(Gdx.files.internal("loading/zebra.png")));
+        loadingBarFront =  new Sprite(new Texture(Gdx.files.internal("loading/flyingbullet.png")));
+        zebraDying = new Texture(Gdx.files.internal("loading/zebradying.png"));
+
+        logo.setBounds(0,0,minVPWidth, minVPHeight);
+        loadingBarFront.setBounds(minVPWidth - loadingBarFront.getWidth(), 0, 120f, 120f);
+        loadingBarBack.setBounds(minVPWidth - 120, 0, 120f, 120f);
+
     }
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0,0,0,1);
-        update();
+        ScreenUtils.clear(0f,0f,0f,1f);
 
         viewport.apply();
         game.batch.setProjectionMatrix(cam.combined);
         cam.update();
         game.batch.begin();
         //Todo: Task to complete to the splash screen loading 9/20/21
+        logo.draw(game.batch);
+        loadingBarBack.draw(game.batch);
+        loadingBarFront.draw(game.batch);
         game.batch.end();
 
         if(game.getAssMan().isFinished()){
             //Todo: Initialize the screens.
         }
+
+        progress = update();
+        if (progress > .75f && loadingBarBack.getTexture() != zebraDying){loadingBarBack.setTexture(zebraDying);}
+        loadingBarFront.setPosition((minVPWidth * progress) - loadingBarFront.getWidth(), 0);
     }
 
     @Override
@@ -59,7 +84,9 @@ public class LoadingScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-
+        logo.getTexture().dispose();
+        loadingBarBack.getTexture().dispose();
+        loadingBarFront.getTexture().dispose();
     }
 
 
