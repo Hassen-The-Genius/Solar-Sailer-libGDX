@@ -6,4 +6,5 @@
 	<add-linker name="xsiframe"/>
 	<set-configuration-property name="devModeRedirectEnabled" value="true"/>
 	<set-configuration-property name="xsiframe.failIfScriptTag" value="FALSE"/>
+	<inherits name="space.earlygrey.shapedrawer"/>
 </module>

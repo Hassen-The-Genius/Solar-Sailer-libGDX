@@ -7,13 +7,16 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.max.solarsailer.Screens.InitialLvlScreen;
 import com.max.solarsailer.Screens.LoadingScreen;
 
 
 public class SolarSailerMain extends Game {
+	//created 9/19/20
 	public SpriteBatch batch;
 	private AssetManager assMan;
 	public LoadingScreen loadingScreen;
+	public InitialLvlScreen initialLvlScreen;
 
 
 	@Override
@@ -35,14 +38,12 @@ public class SolarSailerMain extends Game {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		loadingScreen.dispose();
+		if (loadingScreen != null) loadingScreen.dispose();
+		if(initialLvlScreen != null) initialLvlScreen.dispose();
 	}
 
 	public AssetManager getAssMan() {
 		return assMan;
 	}
 
-	public void setAssMan(AssetManager assMan) {
-		this.assMan = assMan;
-	}
 }

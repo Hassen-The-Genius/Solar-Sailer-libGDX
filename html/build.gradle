@@ -40,6 +40,7 @@ dependencies {
 	implementation "com.github.MrStahlfelge.gdx-websockets:html:$websocketVersion"
 	implementation "com.github.MrStahlfelge.gdx-websockets:html:$websocketVersion:sources"
 	implementation "com.github.tommyettinger:formic:$formicVersion:sources"
+	implementation "space.earlygrey:shapedrawer:$shapeDrawerVersion:sources"
 
 }
 

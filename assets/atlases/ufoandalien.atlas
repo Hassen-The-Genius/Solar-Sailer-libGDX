@@ -1,0 +1,167 @@
+
+ufoandalien.png
+size: 2048, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+ufoandalien
+  rotate: false
+  xy: 2, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 5
+ufoandalien
+  rotate: false
+  xy: 84, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 18
+ufoandalien
+  rotate: false
+  xy: 166, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 10
+ufoandalien
+  rotate: false
+  xy: 248, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 2
+ufoandalien
+  rotate: false
+  xy: 330, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 15
+ufoandalien
+  rotate: false
+  xy: 412, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 7
+ufoandalien
+  rotate: false
+  xy: 494, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 20
+ufoandalien
+  rotate: false
+  xy: 576, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 12
+ufoandalien
+  rotate: false
+  xy: 658, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 4
+ufoandalien
+  rotate: false
+  xy: 740, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 17
+ufoandalien
+  rotate: false
+  xy: 822, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 22
+ufoandalien
+  rotate: false
+  xy: 904, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 9
+ufoandalien
+  rotate: false
+  xy: 986, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 1
+ufoandalien
+  rotate: false
+  xy: 1068, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 14
+ufoandalien
+  rotate: false
+  xy: 1150, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 6
+ufoandalien
+  rotate: false
+  xy: 1232, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 19
+ufoandalien
+  rotate: false
+  xy: 1314, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 11
+ufoandalien
+  rotate: false
+  xy: 1396, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 3
+ufoandalien
+  rotate: false
+  xy: 1478, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 16
+ufoandalien
+  rotate: false
+  xy: 1560, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 21
+ufoandalien
+  rotate: false
+  xy: 1642, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 8
+ufoandalien
+  rotate: false
+  xy: 1724, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 0
+ufoandalien
+  rotate: false
+  xy: 1806, 2
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: 13

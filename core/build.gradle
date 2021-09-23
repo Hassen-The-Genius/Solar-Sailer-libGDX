@@ -8,5 +8,6 @@ dependencies {
 	api "com.github.MrStahlfelge.gdx-websockets:serialization:$websocketSerializationVersion"
 	api "com.github.MrStahlfelge.gdx-websockets:core:$websocketVersion"
 	api "com.github.tommyettinger:formic:$formicVersion"
+	api "space.earlygrey:shapedrawer:$shapeDrawerVersion"
 	api project(':shared')
 }

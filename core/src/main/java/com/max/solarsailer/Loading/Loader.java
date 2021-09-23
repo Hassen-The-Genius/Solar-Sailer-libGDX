@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.max.solarsailer.Loading.Paths.AtlasPaths;
+import com.max.solarsailer.Loading.Paths.TexturePaths;
 import com.max.solarsailer.SolarSailerMain;
 
 public class Loader {
@@ -27,6 +29,7 @@ public class Loader {
     private Array<String> getTextures(){
         Array<String> textures = new Array<>();
         //Todo: textures.add(TexturePaths.TEXTURE_STRING);
+        textures.add(TexturePaths.WHITE_PIXEL);
         return textures;
     }
 
@@ -52,6 +55,7 @@ public class Loader {
     private Array<String> getAtlases(){
         Array<String> atlases = new Array<>();
         //Todo: atlases.add(AtlasPaths.ATLAS_STRING);
+        atlases.add(AtlasPaths.UFO_ATLAS);
         return atlases;
     }
 

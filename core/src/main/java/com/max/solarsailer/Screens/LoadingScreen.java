@@ -62,19 +62,23 @@ public class LoadingScreen extends ScreenAdapter {
         game.batch.setProjectionMatrix(cam.combined);
         cam.update();
         game.batch.begin();
-        //Todo: Task to complete to the splash screen loading 9/20/21
+
         logo.draw(game.batch);
         loadingBarBack.draw(game.batch);
         loadingBarFront.draw(game.batch);
         game.batch.end();
 
-        if(game.getAssMan().isFinished()){
-            //Todo: Initialize the screens.
-        }
+
 
         progress = update();
         if (progress > .75f && loadingBarBack.getTexture() != zebraDying){loadingBarBack.setTexture(zebraDying);}
         loadingBarFront.setPosition((minVPWidth * progress) - loadingBarFront.getWidth(), 0);
+
+        if(game.getAssMan().isFinished()){
+            game.initialLvlScreen = new InitialLvlScreen(game);
+            //Todo: finish up setting additional lvls
+            Gdx.app.postRunnable(() -> game.setScreen(game.initialLvlScreen));
+        }
     }
 
     @Override
