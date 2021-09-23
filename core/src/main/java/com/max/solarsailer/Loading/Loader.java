@@ -30,6 +30,7 @@ public class Loader {
         Array<String> textures = new Array<>();
         //Todo: textures.add(TexturePaths.TEXTURE_STRING);
         textures.add(TexturePaths.WHITE_PIXEL);
+        textures.add(TexturePaths.GOAL);
         return textures;
     }
 

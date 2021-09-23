@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import com.max.solarsailer.SolarSailerMain;
+import com.max.solarsailer.Tools.FloatingIsland;
 import com.max.solarsailer.Tools.Ship;
 import com.max.solarsailer.Tools.Star;
 import com.max.solarsailer.Tools.StarShipRenderer;
@@ -23,7 +24,9 @@ public class InitialLvlScreen extends ScreenAdapter {
     float minVPHeight = 400f;
     StarShipRenderer starShipRenderer;
     Ship ship;
-    Vector2 gForce = new Vector2();
+    FloatingIsland floatingIsland;
+    public static int lvl = 5;
+
 
 
     public InitialLvlScreen(SolarSailerMain game) {
@@ -46,17 +49,38 @@ public class InitialLvlScreen extends ScreenAdapter {
         starShipRenderer.setShip(ship);
         ship.setCrashed(false);
         ship.setGravity(false);
+
+        floatingIsland = new FloatingIsland(game, cam, viewport);
+        boolean isPositioned = false;
+        do{
+            float x = MathUtils.random(25, minVPWidth - 25);
+            float y = MathUtils.random(25, minVPHeight - 25);
+            for(Star star : starShipRenderer.getDistantStars()){
+                if(Math.abs(x - star.getPosition().x) < star.getRadius() + floatingIsland.keyFrameWidth
+                        || Math.abs(y - star.getPosition().y) < star.getRadius() + floatingIsland.keyFrameHeight){
+                    continue;
+                }else {
+                    isPositioned = true;
+                    floatingIsland.setPosition(x - floatingIsland.keyFrameWidth/2f, y - floatingIsland.keyFrameHeight/2f);
+                }
+            }
+        }while(!isPositioned);
+
+
     }
 
     @Override
     public void render(float delta) {
         starShipRenderer.render();
+        floatingIsland.render();
         moveShip();
         setStarsAngle();
         setStarsAppliedGForce();
         setTotalAppliedGForce();
         setShipAcceleration();
         setShipVelocity(ship.isGravity());
+        floatingIsland.checkReached(starShipRenderer.getKeyFrame());
+        checkShipCrashed(ship.isGravity());
         checkUserInput();
     }
 
@@ -73,7 +97,7 @@ public class InitialLvlScreen extends ScreenAdapter {
     }
 
     public Array<Star> createStars(){
-        int numOfStars = MathUtils.random(2,12);
+        int numOfStars = MathUtils.random(1,lvl);
         Array<Star> stars = new Array<>();
         for(int i = 0; i < numOfStars; i++){
             Star star = new Star();
@@ -86,7 +110,8 @@ public class InitialLvlScreen extends ScreenAdapter {
     }
 
     void moveShip(){
-        ship.setPosition(ship.getPosition().x + ship.getVelocity().x, ship.getPosition().y + ship.getVelocity().y);
+        if(!ship.isCrashed()){
+        ship.setPosition(ship.getPosition().x + ship.getVelocity().x, ship.getPosition().y + ship.getVelocity().y);}
     }
 
     void setStarsAngle(){
@@ -106,22 +131,37 @@ public class InitialLvlScreen extends ScreenAdapter {
     }
 
     void setTotalAppliedGForce(){
-        gForce.x = 0;
-        gForce.y = 0;
+        ship.setgForce(0,0);
 
         for(Star star : starShipRenderer.getDistantStars()){
-            gForce.x += star.getAppliedGforce().x;
-            gForce.y += star.getAppliedGforce().y;
+            ship.getgForce().x += star.getAppliedGforce().x;
+            ship.getgForce().y += star.getAppliedGforce().y;
         }
     }
 
     void setShipAcceleration(){
-        ship.setAcceleration(gForce.x, gForce.y);
+        ship.setAcceleration(ship.getgForce().x, ship.getgForce().y);
     }
 
     void setShipVelocity(boolean shipGravity){
         if(shipGravity){
         ship.setVelocity(ship.getVelocity().x + ship.getAcceleration().x, ship.getVelocity().y + ship.getAcceleration().y);
+        }
+    }
+
+    void checkShipCrashed(boolean gravity){
+        if(gravity){
+            for(Star star : starShipRenderer.getDistantStars()){
+                if (Math.abs(star.getPosition().x - ship.getPosition().x) < star.getRadius() + starShipRenderer.shipWidth/2f
+                && Math.abs(star.getPosition().y - ship.getPosition().y) < star.getRadius() + starShipRenderer.shipHeight/2f){
+                    ship.setCrashed(true);
+                }
+            }
+            if(ship.isCrashed()){
+                //Todo: finish this crash
+                Gdx.app.log(this.toString(), "ship crashed. oh boy, play crash animation then send to crash screen. and then menu screen, but for now menu");
+                Gdx.app.postRunnable(()-> game.setScreen(game.menuScreen));
+            }
         }
     }
 
@@ -132,6 +172,10 @@ public class InitialLvlScreen extends ScreenAdapter {
             }else{
                 ship.setGravity(false);
             }
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)){
+            ship.setPosition(-50, minVPHeight/2f);
+            ship.setVelocity(1,0);
         }
     }
 

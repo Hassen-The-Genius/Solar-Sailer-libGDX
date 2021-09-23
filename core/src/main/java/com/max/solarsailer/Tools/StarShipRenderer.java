@@ -32,6 +32,8 @@ public class StarShipRenderer {
     Ship ship;
     Animation<TextureRegion> shipAnimation;
     Sprite keyFrame;
+    public float shipWidth = 20f;
+    public float shipHeight = 20f;
     float stateTime = 0f;
 
 
@@ -43,7 +45,7 @@ public class StarShipRenderer {
         shipAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         keyFrame = new Sprite(shipAnimation.getKeyFrame(stateTime));
-        keyFrame.setSize(20,20);
+        keyFrame.setSize(shipWidth,shipHeight);
     }
 
     public void init(){
@@ -83,6 +85,10 @@ public class StarShipRenderer {
 
     public void setViewport(Viewport viewport) {
         this.viewport = viewport;
+    }
+
+    public Sprite getKeyFrame() {
+        return keyFrame;
     }
 
     void animateShip(){

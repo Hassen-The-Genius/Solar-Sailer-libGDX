@@ -10,6 +10,7 @@ public class Ship {
     float rotation = 0f;
     boolean crashed = false;
     boolean gravity = false;
+    Vector2 gForce = new Vector2();
 
     public Vector2 getVelocity() {
         return velocity;
@@ -61,5 +62,14 @@ public class Ship {
 
     public void setGravity(boolean gravity) {
         this.gravity = gravity;
+    }
+
+    public Vector2 getgForce() {
+        return gForce;
+    }
+
+    public void setgForce(float x, float y) {
+        gForce.x = x;
+        gForce.y = y;
     }
 }
