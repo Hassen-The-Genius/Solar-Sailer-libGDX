@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.max.solarsailer.Loading.Paths.TexturePaths;
+import com.max.solarsailer.Screens.InitialLvlScreen;
 import com.max.solarsailer.SolarSailerMain;
 
 public class FloatingIsland {
@@ -50,6 +51,7 @@ public class FloatingIsland {
                 //Todo, set to menu screen
                 Gdx.app.log(this.toString(), "goal reached .. increasing difficulty...");
                 //Todo: increase lvl difficulty then set to menu for next game to be harder.
+                InitialLvlScreen.lvl++;
                 Gdx.app.postRunnable(() -> game.setScreen(game.menuScreen));
             }
         }

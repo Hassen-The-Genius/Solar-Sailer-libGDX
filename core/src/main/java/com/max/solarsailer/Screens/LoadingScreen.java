@@ -78,7 +78,7 @@ public class LoadingScreen extends ScreenAdapter {
             game.menuScreen = new MenuScreen(game);
             game.initialLvlScreen = new InitialLvlScreen(game);
             //Todo: finish up setting additional lvls
-            Gdx.app.postRunnable(() -> game.setScreen(game.initialLvlScreen));
+            Gdx.app.postRunnable(() -> game.setScreen(game.menuScreen));
         }
     }
 

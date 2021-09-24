@@ -6,11 +6,13 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import com.max.solarsailer.SolarSailerMain;
 import com.max.solarsailer.Tools.FloatingIsland;
+import com.max.solarsailer.Tools.Hud;
 import com.max.solarsailer.Tools.Ship;
 import com.max.solarsailer.Tools.Star;
 import com.max.solarsailer.Tools.StarShipRenderer;
@@ -25,7 +27,9 @@ public class InitialLvlScreen extends ScreenAdapter {
     StarShipRenderer starShipRenderer;
     Ship ship;
     FloatingIsland floatingIsland;
-    public static int lvl = 5;
+    public static int lvl = 1;
+    Hud hud;
+    InputEvent hudInputEvent = new InputEvent();
 
 
 
@@ -66,7 +70,8 @@ public class InitialLvlScreen extends ScreenAdapter {
             }
         }while(!isPositioned);
 
-
+        hud = new Hud(game);
+        hud.init(ship);
     }
 
     @Override
@@ -82,18 +87,22 @@ public class InitialLvlScreen extends ScreenAdapter {
         floatingIsland.checkReached(starShipRenderer.getKeyFrame());
         checkShipCrashed(ship.isGravity());
         checkUserInput();
+        hud.update();
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
         cam.position.set(minVPWidth/2, minVPHeight/2, 0);
+        hud.resize(width, height);
+
     }
 
 
 
     @Override
     public void dispose() {
+        hud.dispose();
     }
 
     public Array<Star> createStars(){
@@ -167,11 +176,10 @@ public class InitialLvlScreen extends ScreenAdapter {
 
     void checkUserInput(){
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            if(!ship.isGravity()){
-                ship.setGravity(true);
-            }else{
-                ship.setGravity(false);
-            }
+            hudInputEvent.setType(InputEvent.Type.touchDown);
+            hud.gravityOnOffButton.fire(hudInputEvent);
+            hudInputEvent.setType(InputEvent.Type.touchUp);
+            hud.gravityOnOffButton.fire(hudInputEvent);
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)){
             ship.setPosition(-50, minVPHeight/2f);
