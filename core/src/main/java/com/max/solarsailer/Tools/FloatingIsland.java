@@ -16,8 +16,8 @@ public class FloatingIsland {
     Viewport viewport;
     Vector2 position = new Vector2();
     Sprite keyFrame;
-    public float keyFrameWidth = 64;
-    public float keyFrameHeight = 64;
+    public float keyFrameWidth = 64f;
+    public float keyFrameHeight = 64f;
 
     public FloatingIsland(SolarSailerMain game, OrthographicCamera cam, Viewport viewport) {
         this.game = game;

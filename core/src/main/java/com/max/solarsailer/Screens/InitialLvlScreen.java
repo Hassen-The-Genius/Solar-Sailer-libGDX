@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -22,8 +21,8 @@ public class InitialLvlScreen extends ScreenAdapter {
     SolarSailerMain game;
     OrthographicCamera cam;
     ExtendViewport viewport;
-    float minVPWidth = 800f;
-    float minVPHeight = 400f;
+    float minVPWidth = 1000f;
+    float minVPHeight = 500f;
     StarShipRenderer starShipRenderer;
     Ship ship;
     FloatingIsland floatingIsland;
@@ -57,8 +56,8 @@ public class InitialLvlScreen extends ScreenAdapter {
         floatingIsland = new FloatingIsland(game, cam, viewport);
         boolean isPositioned = false;
         do{
-            float x = MathUtils.random(25, minVPWidth - 25);
-            float y = MathUtils.random(25, minVPHeight - 25);
+            float x = MathUtils.random(45, minVPWidth - 45); //45 just cause i wanted to, should be 64, b4 it was 25
+            float y = MathUtils.random(45, minVPHeight - 45);
             for(Star star : starShipRenderer.getDistantStars()){
                 if(Math.abs(x - star.getPosition().x) < star.getRadius() + floatingIsland.keyFrameWidth
                         || Math.abs(y - star.getPosition().y) < star.getRadius() + floatingIsland.keyFrameHeight){
@@ -69,6 +68,11 @@ public class InitialLvlScreen extends ScreenAdapter {
                 }
             }
         }while(!isPositioned);
+
+        for (int i = 0; i < starShipRenderer.getDistantStars().size; i++){
+            Star star = starShipRenderer.getDistantStars().get(i);
+            star.setOtherStars(starShipRenderer.getDistantStars());
+        }
 
         hud = new Hud(game);
         hud.init(ship);
@@ -84,6 +88,15 @@ public class InitialLvlScreen extends ScreenAdapter {
         setTotalAppliedGForce();
         setShipAcceleration();
         setShipVelocity(ship.isGravity());
+
+        //star stuff
+        moveStar();
+        //this method to combine everything
+        setOthersAngleandsetAppliedGForceToMainStarandsetTotalStarsActingGForce();
+
+        setStarAcceleration();
+        setStarVelocity();
+
         floatingIsland.checkReached(starShipRenderer.getKeyFrame());
         checkShipCrashed(ship.isGravity());
         checkUserInput();
@@ -107,12 +120,13 @@ public class InitialLvlScreen extends ScreenAdapter {
 
     public Array<Star> createStars(){
         int numOfStars = MathUtils.random(1,lvl);
+        //int numOfStars = lvl;
         Array<Star> stars = new Array<>();
         for(int i = 0; i < numOfStars; i++){
             Star star = new Star();
             star.setRadius(MathUtils.random(2, 20));
             star.setGravity(star.getRadius() * star.getColor().a * .001f);
-            star.setPosition(new Vector2(MathUtils.random(20, minVPWidth - 20), MathUtils.random(20, minVPHeight - 20)));
+            star.setPosition(MathUtils.random(20, minVPWidth - 20), MathUtils.random(20, minVPHeight - 20));
             stars.add(star);
         }
         return stars;
@@ -121,6 +135,12 @@ public class InitialLvlScreen extends ScreenAdapter {
     void moveShip(){
         if(!ship.isCrashed()){
         ship.setPosition(ship.getPosition().x + ship.getVelocity().x, ship.getPosition().y + ship.getVelocity().y);}
+    }
+
+    void moveStar(){
+        for(Star star : starShipRenderer.getDistantStars()){
+            star.setPosition(star.getPosition().x + star.getVelocity().x, star.getPosition().y + star.getVelocity().y);
+        }
     }
 
     void setStarsAngle(){
@@ -132,12 +152,32 @@ public class InitialLvlScreen extends ScreenAdapter {
         }
     }
 
+    void setOthersAngleandsetAppliedGForceToMainStarandsetTotalStarsActingGForce(){
+        for (Star star : starShipRenderer.getDistantStars()){
+            float otherAngle;
+            star.setgForce(0,0);
+            for (Star otherStar : star.getOtherStars()){
+                otherAngle = MathUtils.atan2(otherStar.getPosition().y - star.getPosition().y,
+                         otherStar.getPosition().x - star.getPosition().x) *MathUtils.radiansToDegrees;
+                otherAngle = (((otherAngle % 360) + 360) % 360);
+                otherStar.setAngleFromMainStar(otherAngle);
+
+                otherStar.setAppliedGForceToMainStar(MathUtils.cosDeg(otherStar.getAngleToMainStar()) * otherStar.getGravity(),
+                        MathUtils.sinDeg(otherStar.getAngleToMainStar()) * otherStar.getGravity());
+
+                star.getgForce().x += otherStar.getAppliedGForceToMainStar().x;
+                star.getgForce().y += otherStar.getAppliedGForceToMainStar().y;
+            }
+        }
+    }
+
     void setStarsAppliedGForce(){
         for(Star star : starShipRenderer.getDistantStars()){
             star.setAppliedGforce(MathUtils.cosDeg(star.getAngle()) * star.getGravity(),
                     MathUtils.sinDeg(star.getAngle()) * star.getGravity());
         }
     }
+
 
     void setTotalAppliedGForce(){
         ship.setgForce(0,0);
@@ -148,13 +188,26 @@ public class InitialLvlScreen extends ScreenAdapter {
         }
     }
 
+
     void setShipAcceleration(){
         ship.setAcceleration(ship.getgForce().x, ship.getgForce().y);
+    }
+
+    void setStarAcceleration() {
+        for (Star star : starShipRenderer.getDistantStars()){
+            star.setAcceleration(star.getgForce().x, star.getgForce().y);
+        }
     }
 
     void setShipVelocity(boolean shipGravity){
         if(shipGravity){
         ship.setVelocity(ship.getVelocity().x + ship.getAcceleration().x, ship.getVelocity().y + ship.getAcceleration().y);
+        }
+    }
+
+    void setStarVelocity(){
+        for (Star star : starShipRenderer.getDistantStars()){
+            star.setVelocity(star.getVelocity().x + star.getAcceleration().x, star.getVelocity().y + star.getAcceleration().y);
         }
     }
 
@@ -183,7 +236,7 @@ public class InitialLvlScreen extends ScreenAdapter {
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)){
             ship.setPosition(-50, minVPHeight/2f);
-            ship.setVelocity(1,0);
+            ship.setVelocity(1f,0);
         }
     }
 

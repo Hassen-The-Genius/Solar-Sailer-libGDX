@@ -14,8 +14,17 @@ public class Star {
     Vector2 position = new Vector2();
     float angle;
     Vector2 appliedGforce = new Vector2();
-
     Color color = new Color(MathUtils.random(.2f, 1f), MathUtils.random(.2f, 1f), MathUtils.random(.2f,1f), MathUtils.random(.2f, 1f));
+
+    //moving the stars
+    Vector2 velocity = new Vector2();
+    Vector2 acceleration = new Vector2();
+    float angleToMainStar;
+    Vector2 appliedGForceToMainStar = new Vector2();
+    Vector2 gForce = new Vector2();
+    Array<Star> otherStars = new Array<>();
+
+
 
     public void init(){
 
@@ -51,8 +60,9 @@ public class Star {
         return position;
     }
 
-    public void setPosition(Vector2 position) {
-        this.position = position;
+    public void setPosition(float x, float y) {
+        position.x = x;
+        position.y = y;
     }
 
     public Color getColor() {
@@ -74,5 +84,62 @@ public class Star {
     public void setAppliedGforce(float x, float y) {
         appliedGforce.x = x;
         appliedGforce.y = y;
+    }
+
+    public Vector2 getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(float x, float y) {
+        velocity.x = x;
+        velocity.y = y;
+    }
+
+    public Vector2 getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(float x, float y) {
+        acceleration.x = x;
+        acceleration.y = y;
+    }
+
+    public Vector2 getAppliedGForceToMainStar() {
+        return appliedGForceToMainStar;
+    }
+
+    public void setAppliedGForceToMainStar(float x, float y) {
+        appliedGForceToMainStar.x = x;
+        appliedGForceToMainStar.y = y;
+    }
+
+    public Array<Star> getOtherStars() {
+        return otherStars;
+    }
+
+    public void setOtherStars(Array<Star> stars) {
+        otherStars.clear();
+        for (Star star : stars){
+            if(star != this){
+            otherStars.add(star);
+            }
+        }
+    }
+
+    public float getAngleToMainStar() {
+        return angleToMainStar;
+    }
+
+    public void setAngleFromMainStar(float angleToMainStar) {
+        this.angleToMainStar = angleToMainStar;
+    }
+
+    public Vector2 getgForce() {
+        return gForce;
+    }
+
+    public void setgForce(float x, float y) {
+        gForce.x = x;
+        gForce.y = y;
     }
 }

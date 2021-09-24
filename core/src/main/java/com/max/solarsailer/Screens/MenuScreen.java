@@ -27,7 +27,7 @@ public class MenuScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         table = new Table();
         table.center();
@@ -39,7 +39,7 @@ public class MenuScreen extends ScreenAdapter {
                 Gdx.app.postRunnable(()-> game.setScreen(game.initialLvlScreen));
             }
         });
-        table.add(continueButton).center().expandX();
+        table.add(continueButton).center();
         ImageTextButton selectedLVLButton = new ImageTextButton("Select LEVEL", skin);
         selectedLVLButton.addListener(new ClickListener(){
             @Override
@@ -47,7 +47,7 @@ public class MenuScreen extends ScreenAdapter {
                 //Todo: set up lvls screen
             }
         });
-        table.add(selectedLVLButton).center().expandX();
+        //table.add(selectedLVLButton).center();
         stage.addActor(table);
 
     }
