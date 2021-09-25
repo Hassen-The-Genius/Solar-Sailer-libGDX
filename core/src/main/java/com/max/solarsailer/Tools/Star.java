@@ -1,6 +1,8 @@
 package com.max.solarsailer.Tools;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -24,6 +26,8 @@ public class Star {
     Vector2 gForce = new Vector2();
     Array<Star> otherStars = new Array<>();
 
+    Sprite sprite;
+
 
 
     public void init(){
@@ -46,6 +50,12 @@ public class Star {
 
     public void setRadius(float radius) {
         this.radius = radius;
+    }
+
+    public Sprite getSprite() { return sprite; }
+
+    public void setSprite(Texture texture) { sprite = new Sprite(texture);
+        sprite.setSize(getRadius() *2f, getRadius() * 2f);
     }
 
     public float getGravity() {

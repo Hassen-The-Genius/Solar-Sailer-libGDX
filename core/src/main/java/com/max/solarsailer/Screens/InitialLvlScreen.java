@@ -43,6 +43,7 @@ public class InitialLvlScreen extends ScreenAdapter {
     String nextBackGroundString;
     OrthographicCamera backGroundCam;
     Viewport backgroundViewport;
+    Array<Texture> asteroids = new Array<>();
 
 
 
@@ -57,6 +58,13 @@ public class InitialLvlScreen extends ScreenAdapter {
         //code under added to do background
         backgroundTexture = game.getAssMan().get(TexturePaths.MENU_BKGND);
         background = new Sprite(backgroundTexture);
+        asteroids.add(game.getAssMan().get(TexturePaths.A));
+        asteroids.add(game.getAssMan().get(TexturePaths.B));
+        asteroids.add(game.getAssMan().get(TexturePaths.C));
+        asteroids.add(game.getAssMan().get(TexturePaths.D));
+        asteroids.add(game.getAssMan().get(TexturePaths.E));
+        asteroids.add(game.getAssMan().get(TexturePaths.F));
+        asteroids.add(game.getAssMan().get(TexturePaths.G));
     }
 
     @Override
@@ -149,6 +157,7 @@ public class InitialLvlScreen extends ScreenAdapter {
         hud.resize(width, height);
         backgroundViewport.update(width, height);
         backGroundCam.position.set(backgroundViewport.getWorldWidth()/2f, backgroundViewport.getWorldHeight()/2f, 0);
+        //next is important, because unlike other viewports, this one grows, like extended in a way, so background must be resized
         background.setSize(width, height);
     }
 
@@ -170,10 +179,11 @@ public class InitialLvlScreen extends ScreenAdapter {
         Array<Star> stars = new Array<>();
         for(int i = 0; i < numOfStars; i++){
             Star star = new Star();
-            star.setRadius(MathUtils.random(10, 60));
-            star.setGravity(star.getRadius() * star.getColor().a * .001f);
+            star.setRadius(MathUtils.random(10, 10 * lvl));
+            star.setGravity(star.getRadius()  * .0001f);
             star.setPosition(MathUtils.random(60, minVPWidth - 60), MathUtils.random(60, minVPHeight - 60));
-            // 60 is for max star radius
+            // 60 is for max star radius, nope changed to 25 * lvl
+            star.setSprite(asteroids.random());
             stars.add(star);
         }
         return stars;
@@ -269,7 +279,6 @@ public class InitialLvlScreen extends ScreenAdapter {
             if(ship.isCrashed()){
                 //Todo: finish this crash
                 Gdx.app.log(this.toString(), "ship crashed. oh boy, play crash animation then send to crash screen. and then menu screen, but for now menu");
-                Gdx.app.postRunnable(()-> game.setScreen(game.menuScreen));
             }
         }
     }

@@ -13,4 +13,11 @@ public class TexturePaths {
     public static String ORION_NEBULA_CROPPED = "backgrounds/orion_nebula_cropped.png";
     public static String RCW_38_CROPPED = "backgrounds/rcw_38_cropped.png";
     public static String TERZAN5_CROPPED = "backgrounds/terzan5_cropped.png";*/
+    public static String A = "sprites/ass/a.png";
+    public static String B = "sprites/ass/b.png";
+    public static String C = "sprites/ass/c.png";
+    public static String D = "sprites/ass/d.png";
+    public static String E = "sprites/ass/e.png";
+    public static String F = "sprites/ass/f.png";
+    public static String G = "sprites/ass/g.png";
 }

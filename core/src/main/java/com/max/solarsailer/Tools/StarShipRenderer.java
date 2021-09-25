@@ -31,10 +31,12 @@ public class StarShipRenderer {
 
     Ship ship;
     Animation<TextureRegion> shipAnimation;
+    public Animation<TextureRegion> explosionAnimation;
     Sprite keyFrame;
     public float shipWidth = 60f;
     public float shipHeight = 60f;
     float stateTime = 0f;
+    boolean timereset;
 
 
     public StarShipRenderer(SolarSailerMain game) {
@@ -43,9 +45,11 @@ public class StarShipRenderer {
         shapeDrawer = new ShapeDrawer(game.batch, new TextureRegion(shapedrawerPixel));
         shipAnimation = new Animation<TextureRegion>(1/3f, game.getAssMan().get(AtlasPaths.UFO_ATLAS, TextureAtlas.class).findRegions("ufoandalien"));
         shipAnimation.setPlayMode(Animation.PlayMode.LOOP);
-
+        explosionAnimation = new Animation<TextureRegion>(1/30f, game.getAssMan().get(AtlasPaths.EXPLOSION_ATLAS, TextureAtlas.class).findRegions("1"));
+        explosionAnimation.setPlayMode(Animation.PlayMode.NORMAL);
         keyFrame = new Sprite(shipAnimation.getKeyFrame(stateTime));
         keyFrame.setSize(shipWidth,shipHeight);
+        timereset = false;
     }
 
     public void init(){
@@ -59,8 +63,10 @@ public class StarShipRenderer {
         game.batch.setProjectionMatrix(cam.combined);
         game.batch.begin();
         for (Star star : distantStars){
-            shapeDrawer.setColor(star.color);
-            shapeDrawer.filledCircle(star.position.x, star.position.y, star.radius);
+            //shapeDrawer.setColor(star.color);
+            //shapeDrawer.filledCircle(star.position.x, star.position.y, star.radius);
+            star.sprite.setPosition(star.position.x - star.getRadius(), star.position.y - star.getRadius());
+            star.sprite.draw(game.batch);
         }
         animateShip();
         game.batch.end();
@@ -91,10 +97,23 @@ public class StarShipRenderer {
         return keyFrame;
     }
 
+
     void animateShip(){
-        stateTime += Gdx.graphics.getDeltaTime();
-        keyFrame.setPosition(ship.getPosition().x - keyFrame.getWidth()/2f, ship.getPosition().y - keyFrame.getHeight()/2f);
-        keyFrame.setRegion(shipAnimation.getKeyFrame(stateTime));
+        if(!ship.isCrashed()){
+            stateTime += Gdx.graphics.getDeltaTime();
+            keyFrame.setPosition(ship.getPosition().x - keyFrame.getWidth()/2f, ship.getPosition().y - keyFrame.getHeight()/2f);
+            keyFrame.setRegion(shipAnimation.getKeyFrame(stateTime));
+            if(stateTime > shipAnimation.getAnimationDuration()){stateTime = 0;}
+        } else{
+            if(!timereset) {
+                stateTime = 0f;
+                timereset = true;}
+            stateTime += Gdx.graphics.getDeltaTime();
+            keyFrame.setRegion(explosionAnimation.getKeyFrame(stateTime));
+            if(explosionAnimation.isAnimationFinished(stateTime)){
+                Gdx.app.postRunnable(()-> game.setScreen(game.menuScreen));}
+
+        }
         keyFrame.draw(game.batch);
     }
 

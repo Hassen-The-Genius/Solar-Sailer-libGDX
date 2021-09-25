@@ -33,6 +33,13 @@ public class Loader {
         textures.add(TexturePaths.WHITE_PIXEL);
         textures.add(TexturePaths.GOAL);
         textures.add(TexturePaths.MENU_BKGND);
+        textures.add(TexturePaths.A);
+        textures.add(TexturePaths.B);
+        textures.add(TexturePaths.C);
+        textures.add(TexturePaths.D);
+        textures.add(TexturePaths.E);
+        textures.add(TexturePaths.F);
+        textures.add(TexturePaths.G);
         return textures;
     }
 
@@ -59,6 +66,7 @@ public class Loader {
         Array<String> atlases = new Array<>();
         //Todo: atlases.add(AtlasPaths.ATLAS_STRING);
         atlases.add(AtlasPaths.UFO_ATLAS);
+        atlases.add(AtlasPaths.EXPLOSION_ATLAS);
         return atlases;
     }
 
