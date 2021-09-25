@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.max.solarsailer.Loading.Paths.TexturePaths;
 import com.max.solarsailer.SolarSailerMain;
 import com.max.solarsailer.Tools.FloatingIsland;
@@ -39,6 +41,8 @@ public class InitialLvlScreen extends ScreenAdapter {
     Array<String> backgroundStrings = new Array<>();
     String currentBackgroundString;
     String nextBackGroundString;
+    OrthographicCamera backGroundCam;
+    Viewport backgroundViewport;
 
 
 
@@ -62,7 +66,10 @@ public class InitialLvlScreen extends ScreenAdapter {
         cam.position.set(minVPWidth/2, minVPHeight/2, 0);
         //setting up background ... removed because i hated the backgrounds
         //setUpBackGround();
-        background.setBounds(0,0, minVPWidth, minVPHeight);
+        backGroundCam = new OrthographicCamera();
+        backgroundViewport = new ScreenViewport(backGroundCam);
+        backGroundCam.position.set(backgroundViewport.getWorldWidth()/2f, backgroundViewport.getWorldHeight()/2f, 0);
+        background.setBounds(0,0, backgroundViewport.getWorldWidth(), backgroundViewport.getWorldHeight());
 
         starShipRenderer = new StarShipRenderer(game);
         starShipRenderer.setCam(cam);
@@ -105,9 +112,9 @@ public class InitialLvlScreen extends ScreenAdapter {
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
         //rendering background
-        viewport.apply();
-        cam.update();
-        game.batch.setProjectionMatrix(cam.combined);
+        backgroundViewport.apply();
+        backGroundCam.update();
+        game.batch.setProjectionMatrix(backGroundCam.combined);
         game.batch.begin();
         background.draw(game.batch);
         game.batch.end();
@@ -140,6 +147,7 @@ public class InitialLvlScreen extends ScreenAdapter {
         viewport.update(width, height);
         cam.position.set(minVPWidth/2, minVPHeight/2, 0);
         hud.resize(width, height);
+        backgroundViewport.update(width, height);
     }
 
 
