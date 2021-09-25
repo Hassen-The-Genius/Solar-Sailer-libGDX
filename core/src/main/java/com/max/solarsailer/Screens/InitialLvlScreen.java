@@ -148,6 +148,8 @@ public class InitialLvlScreen extends ScreenAdapter {
         cam.position.set(minVPWidth/2, minVPHeight/2, 0);
         hud.resize(width, height);
         backgroundViewport.update(width, height);
+        backGroundCam.position.set(backgroundViewport.getWorldWidth()/2f, backgroundViewport.getWorldHeight()/2f, 0);
+        background.setSize(width, height);
     }
 
 
