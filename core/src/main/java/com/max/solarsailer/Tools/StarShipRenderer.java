@@ -32,8 +32,8 @@ public class StarShipRenderer {
     Ship ship;
     Animation<TextureRegion> shipAnimation;
     Sprite keyFrame;
-    public float shipWidth = 20f;
-    public float shipHeight = 20f;
+    public float shipWidth = 60f;
+    public float shipHeight = 60f;
     float stateTime = 0f;
 
 

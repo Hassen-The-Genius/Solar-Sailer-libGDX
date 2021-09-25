@@ -3,12 +3,17 @@ package com.max.solarsailer.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+import com.max.solarsailer.Loading.Paths.TexturePaths;
 import com.max.solarsailer.SolarSailerMain;
 import com.max.solarsailer.Tools.FloatingIsland;
 import com.max.solarsailer.Tools.Hud;
@@ -21,19 +26,33 @@ public class InitialLvlScreen extends ScreenAdapter {
     SolarSailerMain game;
     OrthographicCamera cam;
     ExtendViewport viewport;
-    float minVPWidth = 1000f;
-    float minVPHeight = 500f;
+    float minVPWidth = 3000f;
+    float minVPHeight = 1500f;
     StarShipRenderer starShipRenderer;
     Ship ship;
     FloatingIsland floatingIsland;
     public static int lvl = 1;
     Hud hud;
     InputEvent hudInputEvent = new InputEvent();
+    Texture backgroundTexture;
+    Sprite background;
+    Array<String> backgroundStrings = new Array<>();
+    String currentBackgroundString;
+    String nextBackGroundString;
 
 
 
     public InitialLvlScreen(SolarSailerMain game) {
         this.game = game;
+        //commented out backgroundstuff
+        /*backgroundStrings.add(TexturePaths.CALDWELL_CROPPED, TexturePaths.CARINA_NEBULA_CROPPED,
+                TexturePaths.NGC_1232_CROPPED, TexturePaths.NGC_2264_CROPPED);
+        backgroundStrings.add(TexturePaths.NGC_3582_CROPPED,TexturePaths.ORION_NEBULA_CROPPED,
+                TexturePaths.RCW_38_CROPPED, TexturePaths.TERZAN5_CROPPED);*/
+
+        //code under added to do background
+        backgroundTexture = game.getAssMan().get(TexturePaths.MENU_BKGND);
+        background = new Sprite(backgroundTexture);
     }
 
     @Override
@@ -41,6 +60,10 @@ public class InitialLvlScreen extends ScreenAdapter {
         cam = new OrthographicCamera();
         viewport = new ExtendViewport(minVPWidth, minVPHeight, cam);
         cam.position.set(minVPWidth/2, minVPHeight/2, 0);
+        //setting up background ... removed because i hated the backgrounds
+        //setUpBackGround();
+        background.setBounds(0,0, minVPWidth, minVPHeight);
+
         starShipRenderer = new StarShipRenderer(game);
         starShipRenderer.setCam(cam);
         starShipRenderer.setViewport(viewport);
@@ -80,6 +103,15 @@ public class InitialLvlScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        ScreenUtils.clear(Color.BLACK);
+        //rendering background
+        viewport.apply();
+        cam.update();
+        game.batch.setProjectionMatrix(cam.combined);
+        game.batch.begin();
+        background.draw(game.batch);
+        game.batch.end();
+
         starShipRenderer.render();
         floatingIsland.render();
         moveShip();
@@ -108,7 +140,6 @@ public class InitialLvlScreen extends ScreenAdapter {
         viewport.update(width, height);
         cam.position.set(minVPWidth/2, minVPHeight/2, 0);
         hud.resize(width, height);
-
     }
 
 
@@ -118,15 +149,21 @@ public class InitialLvlScreen extends ScreenAdapter {
         hud.dispose();
     }
 
+    @Override
+    public void hide() {
+        //game.getAssMan().unload(currentBackgroundString);
+    }
+
     public Array<Star> createStars(){
         int numOfStars = MathUtils.random(1,lvl);
         //int numOfStars = lvl;
         Array<Star> stars = new Array<>();
         for(int i = 0; i < numOfStars; i++){
             Star star = new Star();
-            star.setRadius(MathUtils.random(2, 20));
+            star.setRadius(MathUtils.random(10, 60));
             star.setGravity(star.getRadius() * star.getColor().a * .001f);
-            star.setPosition(MathUtils.random(20, minVPWidth - 20), MathUtils.random(20, minVPHeight - 20));
+            star.setPosition(MathUtils.random(60, minVPWidth - 60), MathUtils.random(60, minVPHeight - 60));
+            // 60 is for max star radius
             stars.add(star);
         }
         return stars;
@@ -241,4 +278,20 @@ public class InitialLvlScreen extends ScreenAdapter {
     }
 
 
+     void setUpBackGround(){
+         if(currentBackgroundString != null) {
+
+             do {
+                 nextBackGroundString = backgroundStrings.random();
+             } while (currentBackgroundString.equals(nextBackGroundString));
+             currentBackgroundString = nextBackGroundString;
+         }else {
+             currentBackgroundString = backgroundStrings.random();
+         }
+         game.getAssMan().load(currentBackgroundString, Texture.class);
+         game.getAssMan().finishLoading();
+         backgroundTexture = game.getAssMan().get(currentBackgroundString);
+         background = new Sprite(backgroundTexture);
+         background.setBounds(0,0, minVPWidth, minVPHeight);
+     }
 }

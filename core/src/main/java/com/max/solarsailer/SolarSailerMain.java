@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.max.solarsailer.Screens.InitialLvlScreen;
 import com.max.solarsailer.Screens.LoadingScreen;
+import com.max.solarsailer.Screens.LvlSelectScreen;
 import com.max.solarsailer.Screens.MenuScreen;
 
 
@@ -19,6 +20,7 @@ public class SolarSailerMain extends Game {
 	public LoadingScreen loadingScreen;
 	public MenuScreen menuScreen;
 	public InitialLvlScreen initialLvlScreen;
+	public LvlSelectScreen lvlSelectScreen;
 
 
 	@Override
@@ -44,6 +46,7 @@ public class SolarSailerMain extends Game {
 		if (loadingScreen != null) loadingScreen.dispose();
 		if(menuScreen != null) menuScreen.dispose();
 		if(initialLvlScreen != null) initialLvlScreen.dispose();
+		if(lvlSelectScreen != null) lvlSelectScreen.dispose();
 	}
 
 	public AssetManager getAssMan() {

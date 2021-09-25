@@ -70,6 +70,6 @@ public class Hud implements Disposable {
 
     @Override
     public void dispose() {
-        if(stage != null) stage.dispose();
+        if(stage != null) {stage.dispose();}
     }
 }

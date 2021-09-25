@@ -14,15 +14,18 @@ public class FloatingIsland {
     SolarSailerMain game;
     OrthographicCamera cam;
     Viewport viewport;
+    Prefs prefs;
     Vector2 position = new Vector2();
     Sprite keyFrame;
-    public float keyFrameWidth = 64f;
-    public float keyFrameHeight = 64f;
+    public float keyFrameWidth = 192f;
+    public float keyFrameHeight = 192f;
+
 
     public FloatingIsland(SolarSailerMain game, OrthographicCamera cam, Viewport viewport) {
         this.game = game;
         this.cam = cam;
         this.viewport = viewport;
+        prefs = new Prefs();
         keyFrame = new Sprite((Texture) game.getAssMan().get(TexturePaths.GOAL));
         keyFrame.setSize(keyFrameWidth, keyFrameHeight);
     }
@@ -52,6 +55,8 @@ public class FloatingIsland {
                 Gdx.app.log(this.toString(), "goal reached .. increasing difficulty...");
                 //Todo: increase lvl difficulty then set to menu for next game to be harder.
                 InitialLvlScreen.lvl++;
+                prefs.setLvl(InitialLvlScreen.lvl);
+                if(InitialLvlScreen.lvl > prefs.getHighestLvl()){prefs.setHighestLvl(InitialLvlScreen.lvl);}
                 Gdx.app.postRunnable(() -> game.setScreen(game.menuScreen));
             }
         }

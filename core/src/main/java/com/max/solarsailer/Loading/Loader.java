@@ -32,6 +32,7 @@ public class Loader {
         //Todo: textures.add(TexturePaths.TEXTURE_STRING);
         textures.add(TexturePaths.WHITE_PIXEL);
         textures.add(TexturePaths.GOAL);
+        textures.add(TexturePaths.MENU_BKGND);
         return textures;
     }
 
