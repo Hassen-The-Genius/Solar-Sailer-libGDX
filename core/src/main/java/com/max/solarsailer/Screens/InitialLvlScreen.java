@@ -1,8 +1,11 @@
 package com.max.solarsailer.Screens;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.max.solarsailer.Loading.Paths.AudioPaths;
 import com.max.solarsailer.Loading.Paths.TexturePaths;
 import com.max.solarsailer.SolarSailerMain;
 import com.max.solarsailer.Tools.FloatingIsland;
@@ -45,6 +49,9 @@ public class InitialLvlScreen extends ScreenAdapter {
     Viewport backgroundViewport;
     Array<Texture> asteroids = new Array<>();
 
+    Music dreamcatcher;
+
+
 
 
     public InitialLvlScreen(SolarSailerMain game) {
@@ -65,6 +72,13 @@ public class InitialLvlScreen extends ScreenAdapter {
         asteroids.add(game.getAssMan().get(TexturePaths.E));
         asteroids.add(game.getAssMan().get(TexturePaths.F));
         asteroids.add(game.getAssMan().get(TexturePaths.G));
+
+        dreamcatcher = game.getAssMan().get(AudioPaths.DREAM_CATCHER);
+
+
+        dreamcatcher.setLooping(true);
+        dreamcatcher.setVolume(.6f);
+        dreamcatcher.play();
     }
 
     @Override
@@ -114,6 +128,7 @@ public class InitialLvlScreen extends ScreenAdapter {
 
         hud = new Hud(game);
         hud.init(ship);
+        startMusic();
     }
 
     @Override
@@ -171,6 +186,9 @@ public class InitialLvlScreen extends ScreenAdapter {
     @Override
     public void hide() {
         //game.getAssMan().unload(currentBackgroundString);
+        if(ship.isCrashed() && dreamcatcher.isPlaying()){
+        dreamcatcher.pause();
+        }
     }
 
     public Array<Star> createStars(){
@@ -278,7 +296,8 @@ public class InitialLvlScreen extends ScreenAdapter {
             }
             if(ship.isCrashed()){
                 //Todo: finish this crash
-                Gdx.app.log(this.toString(), "ship crashed. oh boy, play crash animation then send to crash screen. and then menu screen, but for now menu");
+                if(dreamcatcher.isPlaying()) dreamcatcher.pause();
+                //Gdx.app.log(this.toString(), "ship crashed. oh boy, play crash animation then send to crash screen. and then menu screen, but for now menu");
             }
         }
     }
@@ -293,6 +312,10 @@ public class InitialLvlScreen extends ScreenAdapter {
         if(Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)){
             ship.setPosition(-50, minVPHeight/2f);
             ship.setVelocity(1f,0);
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
+            Gdx.app.postRunnable(()->game.setScreen(game.menuScreen));
         }
     }
 
@@ -312,5 +335,11 @@ public class InitialLvlScreen extends ScreenAdapter {
          backgroundTexture = game.getAssMan().get(currentBackgroundString);
          background = new Sprite(backgroundTexture);
          background.setBounds(0,0, minVPWidth, minVPHeight);
+     }
+
+     public void startMusic(){
+        if(!dreamcatcher.isPlaying()){
+            dreamcatcher.play();
+        }
      }
 }

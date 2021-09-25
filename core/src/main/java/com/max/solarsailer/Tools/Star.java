@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.HashSet;
+import java.util.Set;
+
 //created 9/22/21
 public class Star {
 
@@ -25,8 +28,11 @@ public class Star {
     Vector2 appliedGForceToMainStar = new Vector2();
     Vector2 gForce = new Vector2();
     Array<Star> otherStars = new Array<>();
+    private HashSet<Star> starsBehind = new HashSet<>();
+    private HashSet<Star> starsInfront = new HashSet<>();
 
-    Sprite sprite;
+    private Sprite sprite;
+    private Sprite switchSprite;
 
 
 
@@ -56,6 +62,14 @@ public class Star {
 
     public void setSprite(Texture texture) { sprite = new Sprite(texture);
         sprite.setSize(getRadius() *2f, getRadius() * 2f);
+    }
+
+    public Sprite getSwitchSprite() {
+        return switchSprite;
+    }
+
+    public void setSwitchSprite(Sprite switchSprite) {
+        this.switchSprite = switchSprite;
     }
 
     public float getGravity() {
@@ -151,5 +165,21 @@ public class Star {
     public void setgForce(float x, float y) {
         gForce.x = x;
         gForce.y = y;
+    }
+
+    public HashSet<Star> getStarsBehind() {
+        return starsBehind;
+    }
+
+    public void setStarsBehind(HashSet<Star> starsBehind) {
+        this.starsBehind = starsBehind;
+    }
+
+    public HashSet<Star> getStarsInfront() {
+        return starsInfront;
+    }
+
+    public void setStarsInfront(HashSet<Star> starsInfront) {
+        this.starsInfront = starsInfront;
     }
 }

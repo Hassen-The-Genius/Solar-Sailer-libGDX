@@ -2,6 +2,8 @@ package com.max.solarsailer.Loading;
 
 import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.max.solarsailer.Loading.Paths.AtlasPaths;
+import com.max.solarsailer.Loading.Paths.AudioPaths;
 import com.max.solarsailer.Loading.Paths.SkinPaths;
 import com.max.solarsailer.Loading.Paths.TexturePaths;
 import com.max.solarsailer.SolarSailerMain;
@@ -50,17 +53,33 @@ public class Loader {
     }
 
 
-    private Array<String> getAudio(){
-        Array<String> audio = new Array<>();
+    private Array<String> getMusic(){
+        Array<String> music = new Array<>();
         //Todo: audio.add(AudioPaths.AUDIO_STRING);
-        return audio;
+        music.add(AudioPaths.DREAM_CATCHER);
+        return music;
     }
 
-    public void loadAudio(){
-        for (String audio : getAudio()){
-            game.getAssMan().load(audio, Audio.class);
+    public void loadMusic(){
+        for (String music : getMusic()){
+            game.getAssMan().load(music, Music.class);
         }
     }
+
+    private Array<String> getSound(){
+        Array<String> sound = new Array<>();
+        //Todo: audio.add(AudioPaths.AUDIO_STRING);
+
+        sound.add(AudioPaths.EXPLOSION);
+        return sound;
+    }
+
+    public void loadSound(){
+        for (String sound : getSound()){
+            game.getAssMan().load(sound, Sound.class);
+        }
+    }
+
 
     private Array<String> getAtlases(){
         Array<String> atlases = new Array<>();

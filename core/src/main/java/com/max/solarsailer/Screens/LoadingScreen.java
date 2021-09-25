@@ -101,7 +101,8 @@ public class LoadingScreen extends ScreenAdapter {
     public void init(){
         loader = new Loader(game);
         loader.loadAtlases();
-        loader.loadAudio();
+        loader.loadMusic();
+        loader.loadSound();
         loader.loadFonts();
         loader.loadSkins();
         loader.loadTextures();
