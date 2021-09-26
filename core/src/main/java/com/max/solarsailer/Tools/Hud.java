@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.max.solarsailer.Loading.Paths.SkinPaths;
+import com.max.solarsailer.Screens.InitialLvlScreen;
 import com.max.solarsailer.SolarSailerMain;
 
 public class Hud implements Disposable {
@@ -21,6 +22,7 @@ public class Hud implements Disposable {
     Skin skin;
     public ImageButton gravityOnOffButton;
     Label gravityLabel;
+    Label lvlLable;
 
     public Hud(SolarSailerMain game) {
         this.game = game;
@@ -49,9 +51,13 @@ public class Hud implements Disposable {
                 }
             }
         });
+        lvlLable = new Label("Level " + InitialLvlScreen.lvl, skin);
+        lvlLable.setPosition(2, stage.getViewport().getWorldHeight() - lvlLable.getHeight() - 2);
+        lvlLable.setColor(.9f, .2f, .6f, .5f);
 
         stage.addActor(gravityLabel);
         stage.addActor(gravityOnOffButton);
+        stage.addActor(lvlLable);
     }
 
     public void update(){

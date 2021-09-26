@@ -3,6 +3,7 @@ package com.max.solarsailer;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 
@@ -25,6 +26,8 @@ public class SolarSailerMain extends Game {
 
 	@Override
 	public void create() {
+		Gdx.input.setCatchKey(Input.Keys.BACKSPACE, true);
+		Gdx.input.setCatchKey(Input.Keys.SPACE, true);
 		batch = new SpriteBatch();
 		assMan = new AssetManager();
 		loadingScreen = new LoadingScreen(this);

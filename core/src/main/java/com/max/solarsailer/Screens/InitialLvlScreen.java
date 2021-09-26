@@ -50,6 +50,9 @@ public class InitialLvlScreen extends ScreenAdapter {
     Array<Texture> asteroids = new Array<>();
 
     Music dreamcatcher;
+    Music spacelife14;
+    Music spaceambient;
+    Music currentSoundTrack;
 
 
 
@@ -73,12 +76,41 @@ public class InitialLvlScreen extends ScreenAdapter {
         asteroids.add(game.getAssMan().get(TexturePaths.F));
         asteroids.add(game.getAssMan().get(TexturePaths.G));
 
+
         dreamcatcher = game.getAssMan().get(AudioPaths.DREAM_CATCHER);
-
-
-        dreamcatcher.setLooping(true);
+        dreamcatcher.setLooping(false);
         dreamcatcher.setVolume(.6f);
-        dreamcatcher.play();
+        dreamcatcher.setOnCompletionListener(new Music.OnCompletionListener() {
+            @Override
+            public void onCompletion(Music music) {
+                currentSoundTrack = spacelife14;
+                currentSoundTrack.play();
+            }
+        });
+
+        spacelife14 = game.getAssMan().get(AudioPaths.SPACE_LIFE14);
+        spacelife14.setLooping(false);
+        spacelife14.setVolume(.6f);
+        spacelife14.setOnCompletionListener(new Music.OnCompletionListener() {
+            @Override
+            public void onCompletion(Music music) {
+                currentSoundTrack = spaceambient;
+                currentSoundTrack.play();
+            }
+        });
+
+        spaceambient = game.getAssMan().get(AudioPaths.SPACE_AMBIENT);
+        spaceambient.setLooping(false);
+        spaceambient.setVolume(.6f);
+        spaceambient.setOnCompletionListener(new Music.OnCompletionListener() {
+            @Override
+            public void onCompletion(Music music) {
+                currentSoundTrack = dreamcatcher;
+                currentSoundTrack.play();
+            }
+        });
+
+        currentSoundTrack = spacelife14;
     }
 
     @Override
@@ -186,18 +218,22 @@ public class InitialLvlScreen extends ScreenAdapter {
     @Override
     public void hide() {
         //game.getAssMan().unload(currentBackgroundString);
-        if(ship.isCrashed() && dreamcatcher.isPlaying()){
-        dreamcatcher.pause();
+        if(ship.isCrashed() && currentSoundTrack.isPlaying()){
+            currentSoundTrack.pause();
         }
     }
 
     public Array<Star> createStars(){
-        int numOfStars = MathUtils.random(1,lvl);
+        int lvlMutiplayer;
+        if(lvl <= 2){ lvlMutiplayer = lvl;} else { lvlMutiplayer = 1;}
+        int numOfStars = MathUtils.random(lvlMutiplayer,lvl);
         //int numOfStars = lvl;
         Array<Star> stars = new Array<>();
         for(int i = 0; i < numOfStars; i++){
             Star star = new Star();
-            star.setRadius(MathUtils.random(10, 10 * lvl));
+
+            if(lvl <= 2){ lvlMutiplayer = 3;} else { lvlMutiplayer = 1;}
+            star.setRadius(MathUtils.random(10 * lvlMutiplayer, 10 * lvl * lvlMutiplayer));
             star.setGravity(star.getRadius()  * .0001f);
             star.setPosition(MathUtils.random(60, minVPWidth - 60), MathUtils.random(60, minVPHeight - 60));
             // 60 is for max star radius, nope changed to 25 * lvl
@@ -338,8 +374,8 @@ public class InitialLvlScreen extends ScreenAdapter {
      }
 
      public void startMusic(){
-        if(!dreamcatcher.isPlaying()){
-            dreamcatcher.play();
+        if(!currentSoundTrack.isPlaying()){
+            currentSoundTrack.play();
         }
      }
 }

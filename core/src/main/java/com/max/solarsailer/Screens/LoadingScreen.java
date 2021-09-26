@@ -24,7 +24,7 @@ public class LoadingScreen extends ScreenAdapter {
     public Sprite logo;
     public Sprite loadingBarBack;
     public Sprite loadingBarFront;
-
+    public Texture zebraDying;
 
     float progress = 0f;
 
@@ -44,9 +44,9 @@ public class LoadingScreen extends ScreenAdapter {
         cam.position.set(minVPWidth/2f, minVPHeight/2f, 0);
 
         logo = new Sprite(new Texture(Gdx.files.internal("loading/splah.png")));
-        loadingBarBack = new Sprite(new Texture(Gdx.files.internal("sprites/goal_64x64.png")));
-        loadingBarFront =  new Sprite(new Texture(Gdx.files.internal("loading/ufo.png")));
-
+        loadingBarBack = new Sprite(new Texture(Gdx.files.internal("loading/zebra.png")));
+        loadingBarFront =  new Sprite(new Texture(Gdx.files.internal("loading/flyingbullet.png")));
+        zebraDying = new Texture(Gdx.files.internal("loading/zebradying.png"));
 
         logo.setBounds(0,0,minVPWidth, minVPHeight);
         loadingBarFront.setBounds(minVPWidth - loadingBarFront.getWidth(), 0, 120f, 120f);
@@ -71,7 +71,7 @@ public class LoadingScreen extends ScreenAdapter {
 
 
         progress = update();
-
+        if (progress > .75f && loadingBarBack.getTexture() != zebraDying){loadingBarBack.setTexture(zebraDying);}
         loadingBarFront.setPosition((minVPWidth * progress) - loadingBarFront.getWidth(), 0);
 
         if(game.getAssMan().isFinished()){

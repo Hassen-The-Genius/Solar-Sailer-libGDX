@@ -1,0 +1,29 @@
+
+//from starshiprender
+if (distantStars.get(i).getSprite().getBoundingRectangle().overlaps(distantStars.get(j).getSprite().getBoundingRectangle())){
+                    if (i > j){
+                        if(main.getStarsBehind().contains(other)){
+                            main.getStarsBehind().remove(other);
+                            }
+                            main.getStarsInfront().add(other);
+                        }else if(i < j){
+                            if(!main.getStarsBehind().contains(other)){
+                                if(main.getStarsInfront().contains(other)){
+                                main.getStarsInfront().remove(other);
+                            }
+                            main.getStarsBehind().add(other);
+                        }
+
+                        main.getStarsInfront().add(other);
+
+                        if(main.getSwitchSprite() != other.getSprite()){
+                            distantStars.set(i, other);
+                            distantStars.set(j, main);
+                            main.setSwitchSprite(other.getSprite());
+                            other.setSwitchSprite(main.getSprite());
+                        }
+                    }
+                }else if(main.getSwitchSprite() == other.getSprite()){
+                    main.setSwitchSprite(null);
+                    other.setSwitchSprite(null);
+                }

@@ -57,6 +57,8 @@ public class Loader {
         Array<String> music = new Array<>();
         //Todo: audio.add(AudioPaths.AUDIO_STRING);
         music.add(AudioPaths.DREAM_CATCHER);
+        music.add(AudioPaths.SPACE_LIFE14);
+        music.add(AudioPaths.SPACE_AMBIENT);
         return music;
     }
 
