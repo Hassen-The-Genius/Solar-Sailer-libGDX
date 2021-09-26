@@ -9,6 +9,9 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	small: {
 		file: font-small-export.fnt
 	}
+	sticknobills: {
+		file: sticknobills.fnt
+	}
 	title: {
 		file: font-title-export.fnt
 	}
@@ -184,7 +187,7 @@ com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
 		checkboxOff: checkbox-t
 		checkboxOnDisabled: checkbox-checked-d
 		checkboxOffDisabled: checkbox-d
-		font: small
+		font: sticknobills
 		fontColor: font
 		overFontColor: font-over
 		disabledFontColor: font-disabled
@@ -214,7 +217,7 @@ com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
 		checkboxOff: switch-off
 		checkboxOnDisabled: switch-on-disabled
 		checkboxOffDisabled: switch-off-disabled
-		font: small
+		font: sticknobills
 		fontColor: font
 		overFontColor: font-over
 		disabledFontColor: font-disabled
@@ -239,7 +242,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 	default: {
-		font: font
+		font: sticknobills
 		fontColor: font
 		overFontColor: font-over
 		disabledFontColor: font-disabled
@@ -306,7 +309,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-		font: font
+		font: sticknobills
 		fontColor: font
 	}
 	white: {
