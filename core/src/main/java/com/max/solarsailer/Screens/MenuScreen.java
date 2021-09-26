@@ -25,6 +25,7 @@ public class MenuScreen extends ScreenAdapter {
     Prefs prefs;
     Texture backgroundTexture;
     Sprite background;
+    Texture logo;
 
     public MenuScreen(SolarSailerMain game) {
         this.game = game;
@@ -32,16 +33,19 @@ public class MenuScreen extends ScreenAdapter {
         prefs = new Prefs();
         backgroundTexture = game.getAssMan().get(TexturePaths.MENU_BKGND);
         background = new Sprite(backgroundTexture);
+        logo = game.getAssMan().get(TexturePaths.LOGO);
     }
 
     @Override
     public void show() {
         stage = new Stage();
+        stage.getCamera().position.set(stage.getWidth() / 2f, stage.getHeight() / 2f, 0);
         Gdx.input.setInputProcessor(stage);
         background.setBounds(0,0, stage.getWidth(), stage.getHeight());
         table = new Table();
+        table.setBounds(0,0,stage.getWidth(), stage.getHeight() / 4);
         table.center();
-        table.setFillParent(true);
+//        table.setFillParent(false);
         ImageTextButton continueButton = new ImageTextButton("Continue to LEVEL " + prefs.getLvl(), skin);
         continueButton.addListener(new ClickListener(){
             @Override
@@ -65,12 +69,13 @@ public class MenuScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.GREEN);
+        ScreenUtils.clear(Color.BLACK);
         stage.getViewport().apply();
         stage.getCamera().update();
         game.batch.setProjectionMatrix(stage.getCamera().combined);
         game.batch.begin();
-        background.draw(game.batch);
+        game.batch.draw(logo,50, stage.getHeight() / 4f, stage.getWidth() - 100, stage.getHeight() * (3f / 4f));
+//        background.draw(game.batch);
         game.batch.end();
         stage.act();
         stage.draw();

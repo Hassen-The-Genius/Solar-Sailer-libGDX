@@ -27,9 +27,6 @@ public class Loader {
        //Todo: game.getAssMan().setLoader(Something.class, new SomethingLoader(some arguments));
     }
 
-
-
-
     private Array<String> getTextures(){
         Array<String> textures = new Array<>();
         //Todo: textures.add(TexturePaths.TEXTURE_STRING);
@@ -43,6 +40,7 @@ public class Loader {
         textures.add(TexturePaths.E);
         textures.add(TexturePaths.F);
         textures.add(TexturePaths.G);
+        textures.add(TexturePaths.LOGO);
         return textures;
     }
 

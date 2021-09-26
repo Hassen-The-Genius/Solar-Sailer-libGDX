@@ -20,4 +20,5 @@ public class TexturePaths {
     public static String E = "sprites/ass/e.png";
     public static String F = "sprites/ass/f.png";
     public static String G = "sprites/ass/g.png";
+    public static String LOGO = "sprites/logo.png";
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.max.solarsailer.Loading.Loader;
+import com.max.solarsailer.Loading.Paths.TexturePaths;
 import com.max.solarsailer.SolarSailerMain;
 
 public class LoadingScreen extends ScreenAdapter {
@@ -22,6 +23,7 @@ public class LoadingScreen extends ScreenAdapter {
     float minVPHeight = 400;
 
     public Sprite logo;
+//    Texture logo;
     public Sprite loadingBarBack;
     public Sprite loadingBarFront;
     public Texture zebraDying;
@@ -48,6 +50,8 @@ public class LoadingScreen extends ScreenAdapter {
         loadingBarFront =  new Sprite(new Texture(Gdx.files.internal("loading/flyingbullet.png")));
         zebraDying = new Texture(Gdx.files.internal("loading/zebradying.png"));
 
+//        logo = new Texture("sprites/logo.png");
+
         logo.setBounds(0,0,minVPWidth, minVPHeight);
         loadingBarFront.setBounds(minVPWidth - loadingBarFront.getWidth(), 0, 120f, 120f);
         loadingBarBack.setBounds(minVPWidth - 120, 0, 120f, 120f);
@@ -63,11 +67,11 @@ public class LoadingScreen extends ScreenAdapter {
         cam.update();
         game.batch.begin();
 
+        //logo.draw(game.batch);
         logo.draw(game.batch);
         loadingBarBack.draw(game.batch);
         loadingBarFront.draw(game.batch);
         game.batch.end();
-
 
 
         progress = update();
@@ -93,6 +97,7 @@ public class LoadingScreen extends ScreenAdapter {
         logo.getTexture().dispose();
         loadingBarBack.getTexture().dispose();
         loadingBarFront.getTexture().dispose();
+        zebraDying.dispose();
     }
 
 
