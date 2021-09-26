@@ -180,7 +180,7 @@ public class InitialLvlScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        hud.dispose();
+        if(hud !=null)hud.dispose();
     }
 
     @Override

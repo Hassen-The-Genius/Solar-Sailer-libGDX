@@ -149,8 +149,25 @@ public class StarShipRenderer {
 
                 if (distantStars.get(i).getSprite().getBoundingRectangle().overlaps(distantStars.get(j).getSprite().getBoundingRectangle())){
                     if(!main.getSwitchedStars().contains(other) && !other.getSwitchedStars().contains(main)){
-                     distantStars.set(j, main);
-                     distantStars.set(i, other);
+
+                       /*if (i < j) {
+                            for (int x = i; x < j; x++){
+                                distantStars.set(x, distantStars.get(x++));
+                            }
+                            distantStars.set(j, main);
+                            distantStars.set(j--, other);
+                        }
+
+                        if(i > j){
+                            for (int x = i; x > j; x--){
+                                distantStars.set(x, distantStars.get(x--));
+                            }
+                            distantStars.set(i, other);
+                            distantStars.set(i--, main);
+                        }*/
+                        distantStars.swap(i, j);
+                        //this ^ works too, before it was distatars.set(i, other) ...(j, main)... both dont give the results i was lookn for all day 9/25/21
+
                     }
                     main.getSwitchedStars().add(other);
                     other.getSwitchedStars().add(main);
