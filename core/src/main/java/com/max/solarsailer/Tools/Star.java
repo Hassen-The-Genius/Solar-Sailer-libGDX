@@ -30,6 +30,7 @@ public class Star {
     Array<Star> otherStars = new Array<>();
     private HashSet<Star> starsBehind = new HashSet<>();
     private HashSet<Star> starsInfront = new HashSet<>();
+    private HashSet<Star> switchedStars = new HashSet<>();
 
     private Sprite sprite;
     private Sprite switchSprite;
@@ -171,15 +172,15 @@ public class Star {
         return starsBehind;
     }
 
-    public void setStarsBehind(HashSet<Star> starsBehind) {
-        this.starsBehind = starsBehind;
-    }
 
     public HashSet<Star> getStarsInfront() {
         return starsInfront;
     }
 
-    public void setStarsInfront(HashSet<Star> starsInfront) {
-        this.starsInfront = starsInfront;
+
+
+    public HashSet<Star> getSwitchedStars() {
+        return switchedStars;
     }
+
 }

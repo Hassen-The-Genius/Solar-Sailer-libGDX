@@ -73,7 +73,7 @@ public class StarShipRenderer {
             star.getSprite().setPosition(star.position.x - star.getRadius(), star.position.y - star.getRadius());
             star.getSprite().draw(game.batch);
         }
-        //checkOverlap();
+        checkOverlap();
         animateShip();
         game.batch.end();
     }
@@ -128,29 +128,36 @@ public class StarShipRenderer {
     void checkOverlap(){
         for (int i = 0; i < distantStars.size; i++) {
             for (int j = 0; j < distantStars.size; j++) {
+                if(i == j){continue;}
                 Star main = distantStars.get(i);
                 Star other = distantStars.get(j);
-                if(i == j){continue;}
 
                 //redoing the code under
-                if (distantStars.get(i).getSprite().getBoundingRectangle().overlaps(distantStars.get(j).getSprite().getBoundingRectangle())){
-                    if (i > j){
-                        if(main.getStarsBehind().contains(other)){main.getStarsBehind().remove(other);
-                        }else if (i < j)
-                        main.getStarsInfront().add(other);
+                if(i < j){
+                    main.getStarsBehind().add(other);
+                    main.getStarsInfront().remove(other);
 
-                        if(main.getSwitchSprite() != other.getSprite()){
-                            distantStars.set(i, other);
-                            distantStars.set(j, main);
-                            main.setSwitchSprite(other.getSprite());
-                            other.setSwitchSprite(main.getSprite());
-                        }
-                    }
-                }else if(main.getSwitchSprite() == other.getSprite()){
-                    main.setSwitchSprite(null);
-                    other.setSwitchSprite(null);
+                    other.getStarsBehind().remove(main);
+                    other.getStarsInfront().add(main);
+                }else if(i > j){
+                    main.getStarsBehind().remove(other);
+                    main.getStarsInfront().add(other);
+
+                    other.getStarsBehind().add(main);
+                    other.getStarsInfront().remove(main);
                 }
 
+                if (distantStars.get(i).getSprite().getBoundingRectangle().overlaps(distantStars.get(j).getSprite().getBoundingRectangle())){
+                    if(!main.getSwitchedStars().contains(other) && !other.getSwitchedStars().contains(main)){
+                     distantStars.set(j, main);
+                     distantStars.set(i, other);
+                    }
+                    main.getSwitchedStars().add(other);
+                    other.getSwitchedStars().add(main);
+                }else{
+                    main.getSwitchedStars().remove(other);
+                    other.getSwitchedStars().remove(main);
+                }
             }
         }
     }
